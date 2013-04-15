@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+
+        <!-- Nereid User Wiki -->
+        <record model="ir.ui.view" id="nereid_user_wiki_form">
+            <field name="model">wiki.wiki</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <![CDATA[
+                <form string="Wiki">
+                    <label name="title"/>
+                    <field name="title"/>
+                    <label name="nereid_user"/>
+                    <field name="nereid_user"/>
+                    <newline/>
+                    <notebook colspan="4">
+                        <page string="Description" id="content">
+                            <field name="content" colspan="4"/>
+                        </page>
+                        <page string="Page" id="wiki_page">
+                            <field name="wiki_page" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+                ]]>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="nereid_user_wiki_tree">
+            <field name="model">wiki.wiki</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <tree string="Wiki">
+                    <field name="title"/>
+                    <field name="create_date"/>
+                </tree>
+                ]]>
+            </field>
+        </record>
+
+         <record model="ir.ui.view" id="nereid_wiki_page_view_form">
+            <field name="model">wiki.page</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="Page">
+                    <label name="page_title"/>
+                    <field name="page_title"/>
+                    <label name="create_date"/>
+                    <field name="create_date"/>
+                    <label name="content"/>
+                    <field name="content" colspan="4"/>
+                </form>
+                ]]>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="nereid_activity_stream_tree">
+            <field name="model">wiki.page</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <tree string="Page">
+                    <field name="page_title"/>
+                    <field name="create_date"/>
+                </tree>
+                ]]>
+            </field>
+        </record>        
+
+         <record model="ir.action.act_window"
+            id="act_nereid_user_wiki_view_form">
+            <field name="name">Wiki</field>
+            <field name="res_model">wiki.wiki</field>
+        </record>
+
+        <record model="ir.action.act_window.view"
+                id="act_nereid_user_wiki_view1">
+            <field name="sequence" eval="2"/>
+            <field name="view" ref="nereid_user_wiki_form"/>
+            <field name="act_window" ref="act_nereid_user_wiki_view_form"/>
+        </record>
+
+        <record model="ir.action.act_window.view"
+                id="act_nereid_user_wiki_view2">
+            <field name="sequence" eval="1"/>
+            <field name="view" ref="nereid_user_wiki_tree"/>
+            <field name="act_window" ref="act_nereid_user_wiki_view_form"/>
+        </record>
+
+        <menuitem name="Wiki"
+            parent="nereid.menu_nereid"
+            id="menu_nereid_user_wiki"
+            sequence="100"/>
+
+        <menuitem parent="menu_nereid_user_wiki"
+            action="act_nereid_user_wiki_view_form"
+            id="menu_nereid_user_wiki_list"
+            sequence="20" icon="tryton-list"/>
+
+        <record model="ir.ui.view" id="wiki_page_create_start_view_form">
+            <field name="model">wiki.page.create.start</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="Set Title">
+                 <group col="1" id="title_id">
+                    <label string="Set new title for creating new wiki." id="create_id" yalign="0.0" xalign="0.0" xexpand="1"/>
+                    <newline/>
+                    <label name="nereid_user" yalign="0.0" xalign="0.0"/>
+                    <field name="nereid_user"/>
+                    <separator colspan="4" name="page_title"/>
+                    <field name="page_title"/>
+                  </group>
+                </form>
+                ]]>
+              </field>
+        </record>
+
+        <record model="ir.action.wizard" id="act_wiki_page_create">
+            <field name="name">Wiki Set Title</field>
+            <field name="wiz_name">wiki.page.create</field>
+        </record>
+
+        <menuitem name="Wiki Set Title" 
+          parent="menu_nereid_user_wiki_list" 
+          action="act_wiki_page_create"
+          id="menu_wiki_page_create_list"/>
+
+      </data>
+</tryton>
